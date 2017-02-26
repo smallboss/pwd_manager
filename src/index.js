@@ -20,7 +20,6 @@ const history = syncHistoryWithStore(hashHistory, store);
 
 
 store.subscribe(() => {
-    console.log(store.getState());
     saveToLocalChannelList( store.getState().channelList )
 });
 
@@ -54,19 +53,3 @@ render(
     </Provider>,
     document.getElementById("root")
 );
-
-let a = [{
-    b: {
-        c: {
-            d: {
-                q: 2
-            }
-        }
-    }
-},12,3,4,5,5, { a: 324}];
-
-let b = _.cloneDeep(a);
-
-a[0].b.c.d.q = 10;
-
-console.log(b[0].b.c.d.q);

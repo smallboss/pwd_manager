@@ -7,6 +7,7 @@ import { showALLNews, showUNREADNews, showREADNews } from '../../redux/actions/n
 
 import NewsList from './NewsList';
 import NewsListHeader from './NewsListHeader';
+import Navigation from '../Navigation';
 
 @connect(mapStateToProps, mapDispatchToProps)
 class NewsListContainer extends Component{
@@ -43,7 +44,7 @@ class NewsListContainer extends Component{
 
     render(){
 
-        const { currChannel, channelId, newsListTypeShow } = this.props;
+        const { currChannel, channelId, newsListTypeShow, router } = this.props;
         const currNewsList = currChannel.item;
 
         const numbNews = {
@@ -61,6 +62,8 @@ class NewsListContainer extends Component{
 
         return(
             <div>
+                <Navigation goBack={router.goBack} goForward={router.goForward}/>
+
                 <NewsListHeader numbNews={numbNews}
                                 activeButton={newsListTypeShow}
                                 showAllNews={this.handleShowAllNews}
@@ -78,7 +81,8 @@ function mapStateToProps(state, ownProps){
     return {
         currChannel: state.channelList[ownProps.params.id],
         channelId: ownProps.params.id,
-        newsListTypeShow: state.newsListTypeShow
+        newsListTypeShow: state.newsListTypeShow,
+        router: ownProps.router
     }
 }
 

@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { ButtonGroup, Row, Col } from 'react-bootstrap';
 
 import { setReadNews } from '../../redux/actions/channelList';
+import Navigation from '../Navigation';
 
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -27,10 +28,13 @@ class NewsContainer extends Component{
 
     render(){
 
-        const { currNews, channelId, newsId } = this.props;
+        const { currNews, channelId, newsId, router } = this.props;
 
         return(
             <Row>
+
+                <Navigation goBack={router.goBack} />
+
                 <Col xs={12}>
                     <h2>{ currNews.title }</h2>
 
@@ -67,7 +71,8 @@ function mapStateToProps(state, ownProps){
         currNews: getCurrNews(state, ownProps),
         channelId: ownProps.location.query.channelId,
         newsId: ownProps.location.query.newsId,
-        newsListTypeShow: state.newsListTypeShow
+        newsListTypeShow: state.newsListTypeShow,
+        router: ownProps.router
     }
 }
 

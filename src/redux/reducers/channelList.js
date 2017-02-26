@@ -7,6 +7,7 @@ export default function (state=[], action) {
 
     switch(action.type) {
         case ActionTypes.ADD_CHANNEL:
+            action.payload.item.forEach((news, index) => news.id = index);
             return [action.payload, ...state];
 
 
@@ -21,7 +22,7 @@ export default function (state=[], action) {
         case ActionTypes.SET_READ_NEWS: {
             const {channelId, newsId, newsListTypeShow} = action.payload;
             const newChannelList = _.cloneDeep(state);
-            newChannelList[channelId].item[newsId].state = 'read';z
+            newChannelList[channelId].item[newsId].state = 'read';
 
             return newChannelList;
         }
@@ -42,7 +43,8 @@ export default function (state=[], action) {
                 newsLisstIsUpdate = false;
 
             if (newsLisstIsUpdate) {
-                item.forEach(news => {
+                item.forEach((news, index) => {
+                    news.id = index;
                     const isOldNews = state[channelId].item.findIndex(newsInState => newsInState.link[0] == news.link[0]);
 
                     if (~isOldNews)

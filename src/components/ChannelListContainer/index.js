@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import autobind from 'autobind-decorator';
-import { ListGroup } from 'react-bootstrap';
+import { ListGroup, Button } from 'react-bootstrap';
 
 import {
     addNewChannel,
@@ -16,6 +16,7 @@ import { showALLNews } from '../../redux/actions/newsListTypeShow';
 import ChannelItem from './ChannelItem';
 import ChannelListHeader from './ChannelListHeader';
 import ModalDialog from './ModalDialog';
+import Navigation from '../Navigation';
 
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -78,6 +79,7 @@ class ChannelListContainer extends Component {
         });
     }
 
+
     componentWillReceiveProps(nextProps){
         if(nextProps.storeError){
             this.setState({
@@ -90,11 +92,13 @@ class ChannelListContainer extends Component {
 
     render(){
 
-        const { channelList, storeError } = this.props;
+        const { channelList, storeError, router } = this.props;
         const { showModal, channelIdEditig, modalTitle } = this.state;
 
         return(
             <div>
+                <Navigation goForward={router.goForward} />
+
                 <ChannelListHeader addNewChannel={this.addNewChannel}
                                    refreshChannels={this.refreshChannelsData}/>
 
@@ -123,10 +127,11 @@ class ChannelListContainer extends Component {
 }
 
 
-function mapStateToProps(state){
+function mapStateToProps(state, ownProps){
     return {
         channelList: state.channelList,
-        storeError: state.error
+        storeError: state.error,
+        router: ownProps.router
     }
 }
 

@@ -9,7 +9,7 @@ const NewsList = ({ newsList, channelId }) => {
         <ListGroup>
              {newsList.map((news, index) => (
                  <NewsItem key={index}
-                           newsId={index}
+                           newsId={news.id}
                            channelId={channelId}
                            state={news.state}
                            title={news.title[0]}
