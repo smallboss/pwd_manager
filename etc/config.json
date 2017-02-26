@@ -1,0 +1,5 @@
+{
+  "apiPrefix": "http://localhost",
+  "serverPort": "3000",
+  "getChannel": "channel"
+}
