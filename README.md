@@ -1,4 +1,4 @@
-For testing:
-npm i
-npm run dev
-Open in browser: localhost:8080
+For testing:<br />
+npm i<br />
+npm run dev<br />
+Open in browser: localhost:8080<br />
