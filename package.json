@@ -6,6 +6,7 @@
   "scripts": {
     "server": "node ./server/main.js",
     "wp-server": "webpack-dev-server --content-base ./public --inline --hot",
+    "dev": "webpack-dev-server --content-base ./public --inline --hot & node ./server/main.js",
     "prod": "cross-env NODE_ENV=prod webpack"
   },
   "author": "",
