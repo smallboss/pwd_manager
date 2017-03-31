@@ -1,0 +1,33 @@
+.password-item{
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.field-name{
+    width: 90px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.field-wrap{
+    font-size: 18px;
+    height: 30px;
+    color: #5a4e4e;
+}
+
+.field-wrap *{
+    vertical-align: middle;
+}
+
+.field-wrap input{
+    height:28px;
+    margin-left: -2px;
+}
+
+.buttons-box > div{
+    margin-right: 10px !important;
+}
+
+.buttons-box .shower button {
+    background-color: #abe6b5 !important;
+}
