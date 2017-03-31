@@ -1,19 +1,23 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import { browserHistory } from 'react-router'
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { routerMiddleware } from 'react-router-redux';
 
+import { getLocalUser } from '../helpers/syncStore';
 import reducers from './reducers';
-import { getLocalChannelList } from '../helpers/syncStore';
-
-
 
 const initialState = {
-    channelList: getLocalChannelList() || [],
+    user: getLocalUser(),
     error: '',
-    newsListTypeShow: 'ALL'
+    passwordList: [],
 };
 
+const routMiddleware = routerMiddleware(browserHistory);
 
-const store = createStore(reducers, initialState, composeWithDevTools(applyMiddleware(thunk)));
+const store = createStore(
+    reducers,
+    initialState,
+    composeWithDevTools(applyMiddleware(thunk, routMiddleware)));
 
 export default store;

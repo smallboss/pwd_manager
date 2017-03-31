@@ -1,55 +1,35 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, Route, hashHistory } from 'react-router';
+import { Router, Route, IndexRoute, Redirect, hashHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import injectTapEventPlugin from "react-tap-event-plugin";
 
-
-import ChannelListContainer from './components/ChannelListContainer';
-import NewsListContainer from './components/NewsListContainer';
-import NewsContainer from './components/NewsContainer';
+import App from './components/App.js';
+import Login from './components/Login';
+import Registration from './components/Registration';
+import Dashboard from './components/Dashboard';
 import store from './redux/store';
-import { saveToLocalChannelList } from './helpers/syncStore';
-import { addNewChannel, loadChannelListToStore } from './redux/actions/channelList';
-import ActionTypes from './redux/constants/actionTypes';
 
+
+injectTapEventPlugin();
 
 
 const history = syncHistoryWithStore(hashHistory, store);
 
-
-
-store.subscribe(() => {
-    saveToLocalChannelList( store.getState().channelList )
-});
-
-
-// ======================= INIT EMPTY CHANNELS LIST =======================
-if(!store.getState().channelList.length) {
-    const defaultChannels = [
-        'http://news.liga.net/all/rss.xml',
-        'http://news.liga.net/top/rss.xml',
-        'http://newsrss.bbc.co.uk/rss/newsonline_world_edition/americas/rss.xml',
-        'http://feeds.washingtonpost.com/rss/rss_act-four',
-        'http://feeds.cfr.org/jlindsay?format=xml',
-        'https://www.newswise.com/legacy/feed/channels.php?channel=6269',
-    ];
-
-
-    defaultChannels.forEach( channel =>
-        store.dispatch(addNewChannel(channel))
-    );
-}
-// END =================== INIT EMPTY CHANNELS LIST =======================
-
-
 render(
-    <Provider store={store}>
-        <Router history={history}>
-            <Route path="/"             component={ChannelListContainer} />
-            <Route path="/channels/:id" component={NewsListContainer} />
-            <Route path="/news/"        component={NewsContainer}/>
-        </Router>
-    </Provider>,
+    <MuiThemeProvider>
+        <Provider store={store}>
+            <Router history={history}>
+                <Route path="/" component={App}>
+                    <IndexRoute                component={Login       } onEnter={Login.onEnter    }/>
+                    <Route path="registration" component={Registration}                                />
+                    <Route path="dashboard"    component={Dashboard   } onEnter={Dashboard.onEnter}/>
+                    <Redirect from="*" to='/' />
+                </Route>
+            </Router>
+        </Provider>
+    </MuiThemeProvider>,
     document.getElementById("root")
 );

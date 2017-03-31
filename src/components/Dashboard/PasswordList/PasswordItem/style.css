@@ -10,13 +10,18 @@
 }
 
 .field-wrap{
-    font-size: 18px;
     height: 30px;
     color: #5a4e4e;
+    margin-bottom: 5px;
 }
 
 .field-wrap *{
     vertical-align: middle;
+    box-sizing: border-box;
+    display: inline-block;
+    font-size: 18px;
+    line-height: 30px;
+    height: 30px;
 }
 
 .field-wrap input{

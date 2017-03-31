@@ -6,14 +6,12 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import Dialog from 'material-ui/Dialog';
 
-
-// import DialogExampleModal from './ModalDialog';
 import * as actions from '../../redux/actions/passwordManage';
 
-import '../WrapDashboard/PasswordAdder/style.css';
+import '../Dashboard/PasswordAdder/style.css';
 
 
-class WrapRegistration extends Component {
+class Registration extends Component {
 
     constructor(props){
         super(props);
@@ -35,8 +33,6 @@ class WrapRegistration extends Component {
         const { userRegistration } = this.props;
         const { login, password } = this.state;
         const userData = { login, password };
-
-        console.log('userData', userData);
 
         if(!login || !password) {
             this.setState({ err_login: !login, err_password: !password });
@@ -65,7 +61,7 @@ class WrapRegistration extends Component {
                         autoFocus
                         errorText={err_login ? 'This field is required' : ''}
                         floatingLabelText="Your login"
-                        value={this.state.login}
+                        value={login}
                         onChange={e => this.setState({ login: e.target.value, err_login: false })}
                     />
                     <br/>
@@ -73,7 +69,7 @@ class WrapRegistration extends Component {
                         errorText={err_password ? 'This field is required' : ''}
                         floatingLabelText="Your password"
                         type="password"
-                        value={this.state.password}
+                        value={password}
                         onChange={e => this.setState({ password: e.target.value, err_password: false })}
                     />
                     <br/>
@@ -98,4 +94,4 @@ function mapStateToProps(state, ownProps){
 }
 
 
-export default connect(mapStateToProps, actions)(WrapRegistration);
+export default connect(mapStateToProps, actions)(Registration);

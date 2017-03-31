@@ -1,41 +1,87 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const feedr = require('feedr').create({/* optional configuration */});
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
 
-const ServerConfig = require('../etc/config.json');
+import ServerConfig from '../etc/config.json';
+import * as db from './utils/DBUtils';
 
+
+
+db.setUpConnection();
 const app = express();
 app.use(bodyParser.json());
 app.use( cors({ origin: '*' }) );
 
+// db.removeAllUsers();
+db.createUserAcc({
+    login: 'test',
+    password: 'test',
+    passwordList: [{
+        service: 'facebook',
+        login: 'fb_login',
+        password: 'fb_password'
+    }]});
 
 
-app.post(`/${ServerConfig.getChannel}/`, function (req, res) {
+app.post(`/login/`, function (req, res) {
+    const { login, password } = req.body;
 
-    const { channelRss } = req.body;
-
-    feedr.readFeed(channelRss, {/* optional configuration */}, function (err, data, headers) {
-        // console.log(err, data.channel);
-        if (err) throw err;
-
-        console.log('\n');
-        console.log('=============== [ LOAD CHANNEL ] ===============');
-        console.log(`Channel rss: ${channelRss}`);
-
-        try {
-            const channel = (data.rss && data.rss.channel[0]) || data.channel[0];
-            console.log('================== SUCCESSFULLY ===================');
-
-            res.send(channel);
-        }
-        catch (err) {
-            console.log('====================== ERROR ======================');
-            res.send(err);
-        }
-    });
+    db.getUserAcc({ login, password })
+        .then( result => res.send(result) );
 });
 
+
+app.post(`/registration/`, function (req, res) {
+    const { login, password } = req.body;
+
+    db.createUserAcc({ login, password })
+        .then(
+            result => {
+                console.log(result);
+                console.log('\n');
+                console.log('============== [ New user registration ] ==============');
+                console.log('Successfully');
+                console.log(`Login:    ${login}`);
+                console.log(`Password: ${password}`);
+                console.log('=======================================================');
+                return result;
+            },
+            reject => {
+                console.log('\n');
+                console.log('============== [ New user registration ] ==============');
+                console.log('Error: ', reject);
+                console.log(`Login:    ${login}`);
+                console.log(`Password: ${password}`);
+                console.log('=======================================================');
+                return { errMessage: reject };
+            }
+        )
+        .then(result => res.send(result));
+});
+
+
+app.post(`/addpassword/`, function (req, res) {
+    const { login, passwordItem } = req.body;
+
+    db.addPassword(login, passwordItem)
+        .then( data => res.send(true) );
+});
+
+
+app.post(`/removepassword/`, function (req, res) {
+    const { login, passwordItemIndex } = req.body;
+
+    db.removePassword(login, passwordItemIndex)
+        .then( data => res.send(true) );
+});
+
+
+app.post(`/editpassword/`, function (req, res) {
+    const { login, passwordIndex, passwordItem } = req.body;
+
+    db.editPassword(login, passwordIndex, passwordItem)
+        .then( data => res.send(true) )
+});
 
 
 app.listen(ServerConfig.serverPort, function () {

@@ -10,7 +10,6 @@ class PasswordList extends Component{
 
     constructor(props){
         super(props);
-
     }
 
 
@@ -28,7 +27,6 @@ class PasswordList extends Component{
 
 
     render(){
-
         const { passwordList } = this.props;
 
         const rendPasswordList = () => {
@@ -55,7 +53,7 @@ class PasswordList extends Component{
     }
 }
 
-function mapStateToProps(state, ownProps){
+function mapStateToProps(state){
     return {
         user: state.user,
         passwordList: state.passwordList,

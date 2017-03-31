@@ -1,22 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { browserHistory, pushState } from 'react-router';
 import { routeActions } from 'react-router-redux';
 
 import AppHead from './AppHead';
 import PasswordAdder from './PasswordAdder';
 import PasswordList from './PasswordList';
+import { getLocalUser } from '../../helpers/syncStore';
 import * as actions from '../../redux/actions/passwordManage';
 
 
 class WrapDashboard extends React.Component{
 
     static onEnter(nextState, replace) {
-        if (!localStorage.getItem('user')) replace('/');
+        if (!getLocalUser()) replace('/');
     }
 
-    constructor(props, context) {
-        super(props, context);
+    constructor(props) {
+        super(props);
 
         this.state = {
             addingPassword: false,

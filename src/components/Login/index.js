@@ -5,22 +5,15 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Dialog from 'material-ui/Dialog';
-import { push } from 'react-router-redux';
 
 
-// import DialogExampleModal from './ModalDialog';
 import * as actions from '../../redux/actions/passwordManage';
 import './style.css';
-
-const style = {
-    textAlign: 'center',
-};
 
 
 class WrapLogin extends Component {
 
     static onEnter(nextState, replace) {
-        console.log(localStorage.getItem('user'));
         if (localStorage.getItem('user')) replace('/dashboard');
     }
 
@@ -104,11 +97,10 @@ class WrapLogin extends Component {
 
 
 
-function mapStateToProps(state, ownProps){
+function mapStateToProps(state){
     return {
         user: state.user,
         error: state.error,
-        router: ownProps.router
     }
 }
 

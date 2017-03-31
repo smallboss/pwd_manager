@@ -22,8 +22,8 @@ class PasswordItem extends Component{
 
 
         this.toggleShowPassword = this.toggleShowPassword.bind(this);
-        this.toggleEditingMode = this.toggleEditingMode.bind(this);
-        this.savePasswordItem = this.savePasswordItem.bind(this);
+        this.toggleEditingMode  = this.toggleEditingMode.bind(this);
+        this.savePasswordItem   = this.savePasswordItem.bind(this);
     }
 
     componentWillReceiveProps(nextProps){
@@ -42,7 +42,7 @@ class PasswordItem extends Component{
             service,
             login,
             password,
-            editing: !this.state.editing
+            editing: !this.state.editing,
         });
     }
 
@@ -50,16 +50,31 @@ class PasswordItem extends Component{
         const { onSave, index} = this.props;
         onSave(this.state, index);
         this.toggleEditingMode();
+        this.setState({ showPassword: false });
     }
 
 
     render(){
-        const { onRemove, onSave } = this.props;
-        const prop_service = this.props.passwordItem.service;
-        const prop_login = this.props.passwordItem.login;
-        const prop_password = this.props.passwordItem.password;
+        const { onRemove } = this.props;
+        const { showPassword, editing, service, login, password } = this.state;
+        
+        const rendButtonBox = () => {
+            return(
+                <div className="buttons-box">
+                    <RaisedButton label="remove" secondary={true} onClick={ onRemove }/>
+                    <RaisedButton label={ editing ? 'cancel' : 'edit'} onClick={ this.toggleEditingMode } primary={true}/>
+                    {
+                        (editing)
+                            ? <RaisedButton label="save" onClick={ this.savePasswordItem } />
+                            : null
+                    }
+                    <RaisedButton label={ showPassword ? 'hide' : 'show'}
+                                  className="shower"
+                                  onClick={ this.toggleShowPassword } />
+                </div>
+            )
+        };
 
-        const { showPassword, editing, service, login, password, masked_password } = this.state;
 
         return(
             <Paper className="password-item" zDepth={1}>
@@ -93,18 +108,7 @@ class PasswordItem extends Component{
                     }
                 </div>
 
-                <div className="buttons-box">
-                    <RaisedButton label="remove" secondary={true} onClick={ onRemove }/>
-                    <RaisedButton label={ editing ? 'cancel' : 'edit'} onClick={ this.toggleEditingMode } primary={true}/>
-                    {
-                        (editing)
-                            ? <RaisedButton label="save" onClick={ this.savePasswordItem } />
-                            : null
-                    }
-                    <RaisedButton label={ showPassword ? 'hide' : 'show'}
-                                  className="shower"
-                                  onClick={ this.toggleShowPassword } />
-                </div>
+                { rendButtonBox() }
             </Paper>
         )
     }

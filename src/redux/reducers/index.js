@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
-import channelList from  './channelList';
+import user from  './user';
 import error from  './error';
-import newsListTypeShow from  './newsListTypeShow';
+import passwordList from './passwordList';
 
 export default combineReducers({
     routing: routerReducer,
-    channelList,
+    user,
     error,
-    newsListTypeShow
+    passwordList
 });

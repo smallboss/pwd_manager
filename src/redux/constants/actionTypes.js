@@ -1,17 +1,16 @@
 import keyMirror from 'keymirror';
 
 export default keyMirror({
-    ADD_CHANNEL: null,
-    SET_READ_NEWS: null,
-    REMOVE_CHANNEL: null,
-    REFRESH_CHANNEL: null,
-    LOAD_FROM_LOCAL_CHANNELLIST: null,
-    CHANGE_CHANNEL_RSS: null,
+    USER_LOGIN: null,
+    USER_LOGOUT: null,
 
-    CLEAR_ERROR: null,
-    ERROR_ADD_CHANNEL: null,
+    CLEAR_PASSWORD_LIST: null,
+    SET_PASSWORD_LIST: null,
+    ADD_PASSWORD: null,
+    REMOVE_PASSWORD: null,
+    EDIT_PASSWORD: null,
 
-    SHOW_ALL_NEWS: null,
-    SHOW_UNREAD_NEWS: null,
-    SHOW_READ_NEWS: null,
+    ERROR_USER_NOT_FOUND: null,
+    CLEAR_MSG: null,
+    SET_MSG: null
 });

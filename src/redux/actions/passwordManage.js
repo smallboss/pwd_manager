@@ -1,16 +1,13 @@
 import axios from 'axios';
-import { push, routerActions } from 'react-router-redux';
 
 import ActionTypes from '../constants/actionTypes';
 import { apiPrefix, serverPort, getChannel } from '../../../etc/config.json';
-import { saveUserToLocal } from '../../helpers/syncStore';
+import { saveUserToLocal, getLocalUser } from '../../helpers/syncStore';
 
 
 export const userLogin = (userLoginInfo) => dispatch => {
-    console.log('userLogin');
     axios.post(`${apiPrefix}:${serverPort}/login`, userLoginInfo )
         .then( res => {
-            console.log(res.data, 'userLogin');
             if(!res.data){
                 dispatch({ type: ActionTypes.ERROR_USER_NOT_FOUND });
             } else {
@@ -28,9 +25,10 @@ export const userLogin = (userLoginInfo) => dispatch => {
 export const getPasswordList = (userLoginInfo) => dispatch => {
     axios.post(`${apiPrefix}:${serverPort}/login`, userLoginInfo )
         .then( res => {
-            console.log(res.data, 'userLogin');
             if(!res.data){
                 dispatch({ type: ActionTypes.ERROR_USER_NOT_FOUND });
+                saveUserToLocal(null);
+                window.location.assign('/');
             } else {
                 dispatch({ type: ActionTypes.SET_PASSWORD_LIST, payload: res.data.passwordList });
                 dispatch({ type: ActionTypes.USER_LOGIN, payload: {login: res.data.login, password: res.data.password} });
@@ -44,9 +42,9 @@ export const getPasswordList = (userLoginInfo) => dispatch => {
 export const removePasswordItem = (user, passwordIndex) => dispatch => {
     axios.post(`${apiPrefix}:${serverPort}/removepassword`, { login: user.login, passwordIndex })
         .then( res => {
-            console.log(res.data, 'removePasswordItem');
             if(!res.data){
                 dispatch({ type: ActionTypes.ERROR_USER_NOT_FOUND });
+                window.location.assign('/#/dashboard');
             } else {
                 dispatch({ type: ActionTypes.REMOVE_PASSWORD, payload: passwordIndex });
                 dispatch({ type: ActionTypes.SET_MSG, payload: 'Record successfully deleted' });
@@ -62,7 +60,6 @@ export const removePasswordItem = (user, passwordIndex) => dispatch => {
 export const editPasswordItem = (user, passwordIndex, passwordItem) => dispatch => {
     axios.post(`${apiPrefix}:${serverPort}/editpassword`, { login: user.login, passwordIndex, passwordItem } )
         .then( res => {
-            console.log(res.data, 'editPasswordItem');
             if(res.data.errMessage){
                 dispatch({ type: ActionTypes.SET_MSG, payload: res.data.errMessage });
             } else {
@@ -79,7 +76,6 @@ export const editPasswordItem = (user, passwordIndex, passwordItem) => dispatch 
 export const userRegistration = (userRegistrationInfo) => dispatch => {
     axios.post(`${apiPrefix}:${serverPort}/registration`, userRegistrationInfo )
         .then( res => {
-            console.log(res.data, 'userRegistration');
             if(res.data.errMessage){
                 dispatch({ type: ActionTypes.SET_MSG, payload: res.data.errMessage });
             } else {
@@ -97,7 +93,6 @@ export const userRegistration = (userRegistrationInfo) => dispatch => {
 export const addPassword = (addPasswordData) => dispatch => {
     axios.post(`${apiPrefix}:${serverPort}/addpassword`, addPasswordData )
         .then( res => {
-            console.log(res.data, res, 'addPassword');
             if(res.data.errMessage){
                 dispatch({ type: ActionTypes.SET_MSG, payload: res.data.errMessage });
             } else {
@@ -112,7 +107,6 @@ export const addPassword = (addPasswordData) => dispatch => {
 
 
 export const userLogout = () => dispatch => {
-    console.log('userLogout');
     dispatch({ type: ActionTypes.USER_LOGOUT });
     dispatch({ type: ActionTypes.CLEAR_PASSWORD_LIST });
     window.location.assign('/#/');
@@ -121,7 +115,6 @@ export const userLogout = () => dispatch => {
 
 
 export const clearError = () => dispatch => {
-    console.log('clearError');
     dispatch({ type: ActionTypes.CLEAR_MSG })
 };
 

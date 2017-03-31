@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import Dialog from 'material-ui/Dialog';
 
 
-// import DialogExampleModal from './ModalDialog';
 import * as actions from '../../../redux/actions/passwordManage';
 import './style.css';
 
@@ -44,13 +42,14 @@ class PasswordAdder extends Component {
 
         addPassword(addPasswordData);
         handleClose();
-        this.setState({ service: '', login: '',  password: '',});
+        this.setState({ service: '', login: '',  password: '' });
     };
 
 
 
     render(){
         const { open, modal, handleClose } = this.props;
+        const { service, login, password } = this.state;
 
         return(
             <Dialog open={open} modal={modal} onRequestClose={handleClose}>
@@ -62,24 +61,21 @@ class PasswordAdder extends Component {
                 <form onSubmit={this.submitAddPassword} className="modal-form">
                     <TextField
                         autoFocus
-                        errorText=""
                         floatingLabelText="Service name"
-                        value={this.state.service}
+                        value={service}
                         onChange={e => this.setState({ service: e.target.value })}
                     />
                     <br/>
                     <TextField
-                        errorText=""
                         floatingLabelText="Your login on service"
-                        value={this.state.login}
+                        value={login}
                         onChange={e => this.setState({ login: e.target.value })}
                     />
                     <br/>
                     <TextField
-                        errorText=""
                         floatingLabelText="Your password on service"
                         type="password"
-                        value={this.state.password}
+                        value={password}
                         onChange={e => this.setState({ password: e.target.value })}
                     />
                     <br/>
