@@ -57,7 +57,7 @@ class PasswordItem extends Component{
     render(){
         const { onRemove } = this.props;
         const { showPassword, editing, service, login, password } = this.state;
-        
+
         const rendButtonBox = () => {
             return(
                 <div className="buttons-box">
