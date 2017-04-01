@@ -8,7 +8,12 @@ const UserAcc = mongoose.model('UserAcc');
 export function setUpConnection() {
     mongoose.Promise = require('bluebird');
     const db_path = `mongodb://${ServerConfig.db.host}:${ServerConfig.db.port}/${ServerConfig.db.name}`;
-    mongoose.connect(db_path);
+    mongoose.connect(db_path)
+        .catch(err => {
+            console.log(err.message);
+            console.log(`Please run mongodb on [${ServerConfig.db.host}:${ServerConfig.db.port}] and run server`);
+            console.log(process.exit())
+        });
 }
 
 export function getUserAcc(userData) {

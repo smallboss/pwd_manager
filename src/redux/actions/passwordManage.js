@@ -14,7 +14,7 @@ export const userLogin = (userLoginInfo) => dispatch => {
                 saveUserToLocal({ login: res.data.login, password: res.data.password });
                 dispatch({ type: ActionTypes.SET_PASSWORD_LIST, payload: res.data.passwordList });
                 dispatch({ type: ActionTypes.USER_LOGIN, payload: {login: res.data.login, password: res.data.password} });
-                window.location.assign('/#/dashboard');
+                location.assign('/#/dashboard');
             }
         })
         .catch( reject => {

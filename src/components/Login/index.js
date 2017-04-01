@@ -42,13 +42,11 @@ class WrapLogin extends Component {
             password: this.state.password,
         };
 
-        if(!login || !password) {
+
+        if(!login || !password)
             this.setState({ err_login: !login, err_password: !password });
-            return;
-        }
-        else {
+        else
             userLogin(userData);
-        }
     };
 
 

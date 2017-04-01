@@ -65,7 +65,9 @@ class PasswordItem extends Component{
                     <RaisedButton label={ editing ? 'cancel' : 'edit'} onClick={ this.toggleEditingMode } primary={true}/>
                     {
                         (editing)
-                            ? <RaisedButton label="save" onClick={ this.savePasswordItem } />
+                            ? <RaisedButton label="save"
+                                            disabled={ !service.trim() || !login.trim() || !password }
+                                            onClick={ this.savePasswordItem } />
                             : null
                     }
                     <RaisedButton label={ showPassword ? 'hide' : 'show'}

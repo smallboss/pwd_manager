@@ -27,6 +27,15 @@ module.exports = {
     ]
 };
 
+module.exports.plugins.push(
+    new webpack.DefinePlugin({
+        "process.env": {
+            NODE_ENV: JSON.stringify("production")
+        }
+    })
+);
+
+
 if(NODE_ENV){
     module.exports.plugins.push(
         new webpack.optimize.UglifyJsPlugin({compress:{ warnings: false }})
